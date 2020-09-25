@@ -1013,7 +1013,7 @@ for d in $OBJCINCDIR ; do
   fi
 done
 
-if test "$OBJCINC" = "" ; then
+if test -z "$OBJCINC" ; then
   AC_MSG_RESULT(not found)
 fi
 
@@ -1026,7 +1026,7 @@ AC_MSG_CHECKING(for Objective-C library)
 if test -z "$OBJCLIB"; then
 dirs="/usr/lib/ /usr/local/lib/ /usr/lib/GNUstep/Libraries/"
 for i in $dirs ; do
-	if test -r $i/libobjc.so.2; then
+	if test -r "$i/libobjc.so.2"; then
 	    AC_MSG_RESULT($i)
 	    OBJCLIB="-L$i -lobjc"
 	    break
@@ -1034,8 +1034,8 @@ for i in $dirs ; do
 done
 
 for i in $dirs ; do
-	if test -r $i/*gnustep-base*; then
-	    AC_MSG_RESULT($i)
+	if test -r "$i/gnustep-base"; then
+	    AC_MSG_RESULT($i/gnustep-base)
 	    OBJCLIB="-L$i -lgnustep-base $OBJCLIB"
 	    break
 	fi
