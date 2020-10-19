@@ -47,6 +47,13 @@
 // Booleans
 %typemap(imtype) bool               					"BOOL"
 %typemap(imtype) const bool &, bool &, const bool *, bool *             "BOOL *"
+%typemap(in) bool * ($*1_ltype temp), const bool * ($*1_ltype temp), const bool & ($*1_ltype temp), bool & ($*1_ltype temp) {
+  temp = (*$input) ? true : false;
+  $1 = &temp;
+}
+%typemap(out) bool& , bool*, const bool&, const bool*
+%{  $result = (BOOL*)$1; %}
+
 
 //C strings:
 %typemap(imtype) char *, const char *, char[ANY], char[]              "NSString *"
@@ -142,12 +149,6 @@
 //Booleans:
 %typemap(in) bool
 %{ $1 = $input? true : false; %}
-
-%typemap(in) bool * (bool temp), const bool * (bool temp), const bool & (bool temp), bool & (bool temp) {
-  temp = (*$input) ? true : false;
-  $1 = &temp;
-}
-
 
 //C strings:
 %typemap(in) char *, char[ANY], char[]  {
@@ -270,12 +271,6 @@
 // Booleans:
 %typemap(out) bool
 %{  $result = ($1)? YES:NO; %}
-
-%typemap(out) bool& (BOOL temp), bool* (BOOL temp), const bool& (BOOL temp), const bool& (BOOL temp)
-%{  temp = (*$1)? YES:NO;
-    BOOL* ret = &temp;
-    return ret; %}
-
 // C strings: 
 %typemap(out)const char *,char * %{ if ($1) $result = [NSString stringWithUTF8String: (const char*)$1]; %}
 %typemap(out) char *& %{ if (*$1) $result = [NSString stringWithUTF8String: (const char*)*$1]; %}
