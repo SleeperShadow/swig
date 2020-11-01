@@ -160,8 +160,10 @@
 		memset(buffer, 0, bufferSize);
 		int i = 0;
 		for (; i < length; ++i)
+		{
 			buffer[i] = [$input characterAtIndex: i];
-			$1 = ($1_ltype)buffer;
+		}
+		$1 = ($1_ltype)buffer;
 	}
 }
 
@@ -174,9 +176,10 @@
 		memset(buffer, 0, bufferSize);
 		int i = 0;
 		for (; i < length; ++i)
+		{
 			buffer[i] = [$input characterAtIndex: i];
+		}
     temp = ($*1_ltype)buffer;
-    if (!temp) return NULL;
   }
   $1 = &temp;
 }
@@ -272,7 +275,7 @@
 %typemap(out) bool
 %{  $result = ($1)? YES:NO; %}
 // C strings: 
-%typemap(out)const char *,char * %{ if ($1) $result = [NSString stringWithUTF8String: (const char*)$1]; %}
+%typemap(out) const char *,char * %{ if ($1) $result = [NSString stringWithUTF8String: (const char*)$1]; %}
 %typemap(out) char *& %{ if (*$1) $result = [NSString stringWithUTF8String: (const char*)*$1]; %}
 %typemap(out) char[ANY], char[] %{ if ($1) $result = [NSString stringWithUTF8String: (const char*)$1]; %}
 
