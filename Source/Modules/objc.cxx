@@ -654,11 +654,6 @@ int OBJECTIVEC::enumDeclaration(Node *n) {
   // Emit each enum item
   Language::enumDeclaration(n);
 
-  if (!GetFlag(n, "nonempty")) {
-    // Do not wrap empty enums;
-    return SWIG_NOWRAP;
-  }
-
   if (proxy_flag) {
     if (typemap_lookup_type) {
       // Finish the enum declaration
